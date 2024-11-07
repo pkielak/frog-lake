@@ -52,22 +52,22 @@
   top: 23px;
 }
 
-.legend {
+.actions {
   float: left;
   margin: 10px;
 }
 
-.legend ul {
+.actions ul {
   margin-bottom: 80px;
   overflow: hidden;
 }
 
-.legend li {
+.actions li {
   float: left;
   margin-right: 10px;
 }
 
-.legend li strong {
+.actions li strong {
   display: inline-block;
   font-size: 1.2em;
 }
