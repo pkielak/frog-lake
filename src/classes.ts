@@ -1,10 +1,21 @@
-export class Frog {
+export type Gender = "male" | "female";
+
+export interface Field {
+  x: number;
+  y: number;
+  id?: number;
+  gender?: Gender;
+}
+
+export type FrogType = Required<Frog>;
+
+export class Frog implements FrogType {
   x: number;
   y: number;
   id: number;
-  gender: "male" | "female";
+  gender: Gender;
 
-  constructor(x: number, y: number, id: number, gender: "male" | "female") {
+  constructor(x: number, y: number, id: number, gender: Gender) {
     this.x = x;
     this.y = y;
     this.id = id;

@@ -3,11 +3,12 @@ import { useLakeContext } from "../LakeContext";
 import { Frog } from "../classes";
 
 export default function Actions() {
-  const { frogs, selected, setFrogs, setSelected } = useLakeContext();
+  const { frogs, selectedFields, setFrogs, setSelectedFields } =
+    useLakeContext();
 
   const selectedFrogs = useMemo(
-    () => selected.filter((selection) => typeof selection.id === "number"),
-    [selected]
+    () => selectedFields.filter((field) => typeof field.id === "number"),
+    [selectedFields]
   );
 
   const currentFrog = useMemo(
@@ -15,27 +16,34 @@ export default function Actions() {
     [selectedFrogs]
   );
 
-  const selectedFields = useMemo(
-    () => selected.filter((selection) => typeof selection.id !== "number"),
-    [selected]
+  const selectedEmptyFields = useMemo(
+    () => selectedFields.filter((field) => typeof field.id !== "number"),
+    [selectedFields]
   );
 
   const canJump = useMemo(
     () =>
       currentFrog &&
-      selectedFields[0] &&
-      Math.abs(selectedFields[0].x - currentFrog.x) <=
+      selectedEmptyFields[0] &&
+      Math.abs(selectedEmptyFields[0].x - currentFrog.x) <=
         (currentFrog.gender === "male" ? 3 : 2) &&
-      Math.abs(selectedFields[0].y - currentFrog.y) <=
+      Math.abs(selectedEmptyFields[0].y - currentFrog.y) <=
         (currentFrog.gender === "male" ? 3 : 2),
-    [currentFrog, selectedFields]
+    [currentFrog, selectedEmptyFields]
+  );
+
+  const canReproduce = useMemo(
+    () =>
+      selectedFrogs.length === 2 &&
+      selectedFrogs[0].gender !== selectedFrogs[1].gender,
+    [selectedFrogs]
   );
 
   function onJump() {
-    if (currentFrog) {
+    if (canJump && currentFrog) {
       const frog = new Frog(
-        selectedFields[0].x,
-        selectedFields[0].y,
+        selectedEmptyFields[0].x,
+        selectedEmptyFields[0].y,
         currentFrog.id,
         currentFrog.gender
       );
@@ -43,7 +51,7 @@ export default function Actions() {
         ...frogs.filter((frog) => frog.id !== selectedFrogs[0].id),
         frog,
       ]);
-      setSelected([]);
+      setSelectedFields([]);
     }
   }
 
@@ -65,7 +73,7 @@ export default function Actions() {
       <button type="button" id="jump" onClick={onJump} disabled={!canJump}>
         Jump
       </button>
-      <button type="button" id="reproduce" disabled={selectedFrogs.length < 2}>
+      <button type="button" id="reproduce" disabled={!canReproduce}>
         Reproduce
       </button>
     </div>

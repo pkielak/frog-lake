@@ -1,45 +1,41 @@
-import { Selection, useLakeContext } from "../LakeContext";
-import { Frog, Lake } from "../classes";
+import { useLakeContext } from "../LakeContext";
+import { Field, Frog, Lake } from "../classes";
 
 function LakeCell({
   frog,
-  selected,
+  selectedFields,
   onSelect,
 }: {
   frog?: Frog;
-  selected: boolean;
+  selectedFields: boolean;
   onSelect: () => void;
 }) {
   return (
     <td>
       <label className={frog && `frog ${frog?.gender}`}>
-        <input type="checkbox" onChange={onSelect} checked={selected} />
+        <input type="checkbox" onChange={onSelect} checked={selectedFields} />
       </label>
     </td>
   );
 }
 
 export default function LakeComponent() {
-  const { frogs, selected, setSelected } = useLakeContext();
+  const { frogs, selectedFields, setSelectedFields } = useLakeContext();
   const lake = new Lake(10, 6);
 
   function isCellSelected(col: number, row: number) {
-    return selected.some(
-      (selection) => selection.x === col && selection.y === row
-    );
+    return selectedFields.some((field) => field.x === col && field.y === row);
   }
 
   function onSelect(col: number, row: number, frog?: Frog) {
-    const isSelected = selected.some(
-      (selection) => selection.x === col && selection.y === row
+    const isSelected = selectedFields.some(
+      (field) => field.x === col && field.y === row
     );
 
-    setSelected([
+    setSelectedFields([
       ...(isSelected
-        ? selected.filter(
-            (selection) => selection.x !== col && selection.y !== row
-          )
-        : [...selected, { x: col, y: row, id: frog?.id } as Selection]),
+        ? selectedFields.filter((field) => field.x !== col && field.y !== row)
+        : [...selectedFields, { x: col, y: row, id: frog?.id } as Field]),
     ]);
   }
 
@@ -61,7 +57,7 @@ export default function LakeComponent() {
                 <LakeCell
                   key={`col-${row}${col}`}
                   frog={frog}
-                  selected={isCellSelected(col, row)}
+                  selectedFields={isCellSelected(col, row)}
                   onSelect={() => onSelect(col, row, frog)}
                 />
               );
