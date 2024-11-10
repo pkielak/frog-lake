@@ -1,7 +1,8 @@
 import React, { createContext, useContext, useState } from "react";
-import { Field, Frog } from "./classes";
+import { Field, Frog, Lake } from "./classes";
 
 interface LakeContextType {
+  lake: Lake;
   frogs: Frog[];
   selectedFields: Field[];
   setFrogs: (frogs: Frog[]) => void;
@@ -27,11 +28,12 @@ export const LakeProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [frogs, setFrogs] = useState(initialState);
+  const lake = new Lake(10, 6);
   const [selectedFields, setSelectedFields] = useState<Field[]>([]);
 
   return (
     <LakeContext.Provider
-      value={{ frogs, selectedFields, setFrogs, setSelectedFields }}
+      value={{ lake, frogs, selectedFields, setFrogs, setSelectedFields }}
     >
       {children}
     </LakeContext.Provider>

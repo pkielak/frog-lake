@@ -1,9 +1,9 @@
 import { useMemo } from "react";
 import { useLakeContext } from "../LakeContext";
-import { Frog } from "../classes";
+import { Field, Frog, Gender } from "../classes";
 
 export default function Actions() {
-  const { frogs, selectedFields, setFrogs, setSelectedFields } =
+  const { lake, frogs, selectedFields, setFrogs, setSelectedFields } =
     useLakeContext();
 
   const selectedFrogs = useMemo(
@@ -32,12 +32,12 @@ export default function Actions() {
     [currentFrog, selectedEmptyFields]
   );
 
-  const canReproduce = useMemo(
-    () =>
+  const canReproduce = useMemo(() => {
+    return (
       selectedFrogs.length === 2 &&
-      selectedFrogs[0].gender !== selectedFrogs[1].gender,
-    [selectedFrogs]
-  );
+      selectedFrogs[0]?.gender !== selectedFrogs[1]?.gender
+    );
+  }, [selectedFrogs]);
 
   function onJump() {
     if (canJump && currentFrog) {
@@ -52,6 +52,72 @@ export default function Actions() {
         frog,
       ]);
       setSelectedFields([]);
+    }
+  }
+
+  function newFrogPosition(motherX: number, motherY: number) {
+    let x: number | undefined;
+    let y: number | undefined;
+    const directions = [
+      { x: 1, y: 0 },
+      { x: 1, y: 1 },
+      { x: 0, y: 1 },
+      { x: -1, y: 1 },
+      { x: -1, y: 0 },
+      { x: -1, y: -1 },
+      { x: 0, y: -1 },
+      { x: 1, y: -1 },
+    ];
+
+    for (let i = 0; i < directions.length; i++) {
+      const newX = motherX + directions[i].x;
+      const newY = motherY + directions[i].y;
+
+      if (
+        newX < lake.x &&
+        newX >= 0 &&
+        newY < lake.y &&
+        newY >= 0 &&
+        !frogs.some((frog) => frog.x === newX && frog.y === newY)
+      ) {
+        x = newX;
+        y = newY;
+        break;
+      }
+    }
+
+    if (!Number.isInteger(x) || !Number.isInteger(x)) {
+      alert(`Can't reproduce`);
+    }
+
+    return {
+      x,
+      y,
+    };
+  }
+
+  function getRandomGender() {
+    const genders = ["male", "female"];
+
+    const genderIndex = Math.round(Math.random());
+
+    console.log(genderIndex);
+
+    return genders[genderIndex] as Gender;
+  }
+
+  function onReporduce() {
+    if (canReproduce) {
+      const { x: motherX, y: motherY } = selectedFrogs.find(
+        (frog) => frog.gender === "female"
+      ) as Field;
+      const { x, y } = newFrogPosition(motherX, motherY);
+
+      if (typeof x === "number" && typeof y === "number") {
+        const frog = new Frog(x, y, frogs.length, getRandomGender());
+        setFrogs([...frogs, frog]);
+        setSelectedFields([]);
+      }
     }
   }
 
@@ -73,7 +139,12 @@ export default function Actions() {
       <button type="button" id="jump" onClick={onJump} disabled={!canJump}>
         Jump
       </button>
-      <button type="button" id="reproduce" disabled={!canReproduce}>
+      <button
+        type="button"
+        id="reproduce"
+        onClick={onReporduce}
+        disabled={!canReproduce}
+      >
         Reproduce
       </button>
     </div>
