@@ -35,7 +35,9 @@ export default function Actions() {
   const canReproduce = useMemo(() => {
     return (
       selectedFrogs.length === 2 &&
-      selectedFrogs[0]?.gender !== selectedFrogs[1]?.gender
+      selectedFrogs[0]?.gender !== selectedFrogs[1]?.gender &&
+      Math.abs(selectedFrogs[0]?.x - selectedFrogs[1]?.x) <= 1 &&
+      Math.abs(selectedFrogs[0]?.y - selectedFrogs[1]?.y) <= 1
     );
   }, [selectedFrogs]);
 
