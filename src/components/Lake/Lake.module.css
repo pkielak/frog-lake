@@ -1,0 +1,48 @@
+.lake {
+  width: 320px;
+  border: 1px solid #6cb4ee;
+  background: #89cff0;
+  color: #fff;
+  padding: 1rem;
+  border-spacing: 0;
+  border-collapse: collapse;
+  margin: 0 auto;
+}
+
+.lake td {
+  border: 1px solid #6cb4ee;
+  width: 1px;
+  white-space: nowrap;
+}
+
+.lake label {
+  cursor: pointer;
+  display: block;
+  aspect-ratio: 1;
+}
+
+.lake input[type="checkbox"] {
+  display: block;
+  margin: 0 auto;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+@media (min-width: 450px) {
+  .lake {
+    width: 450px;
+  }
+}
+
+@media (min-width: 505px) {
+  .lake {
+    width: 505px;
+  }
+}
+
+@media (min-width: 900px) {
+  .lake {
+    width: 640px;
+  }
+}

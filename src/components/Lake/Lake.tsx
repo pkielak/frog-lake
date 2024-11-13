@@ -1,5 +1,7 @@
-import { useLakeContext } from "../LakeContext";
-import { Frog } from "../classes";
+import { useLakeContext } from "../../LakeContext";
+import { Frog } from "../../classes";
+
+import styles from "./Lake.module.css";
 
 function LakeCell({
   frog,
@@ -44,12 +46,7 @@ export default function LakeComponent() {
   }
 
   return (
-    <table id="lake">
-      <thead>
-        <tr>
-          <th colSpan={lake.x}>Lake</th>
-        </tr>
-      </thead>
+    <table id="lake" className={styles.lake}>
       <tbody>
         {Array.from({ length: lake.y }, (_, row) => (
           <tr key={`row-${row}`}>

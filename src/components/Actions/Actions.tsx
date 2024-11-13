@@ -1,6 +1,10 @@
 import { useMemo } from "react";
-import { useLakeContext } from "../LakeContext";
-import { Frog } from "../classes";
+
+import { useLakeContext } from "../../LakeContext";
+import { Frog } from "../../classes";
+import Description from "./Description/Description";
+
+import styles from "./Actions.module.css";
 
 export default function Actions() {
   const { lake, frogs, selectedFields, setFrogs, setSelectedFields } =
@@ -64,31 +68,37 @@ export default function Actions() {
   }
 
   return (
-    <div className="actions">
-      <h3>Legend</h3>
-      <ul>
-        <li>
-          <span className="frog male"></span>
-          <strong>Frog male</strong>
-        </li>
-        <li>
-          <span className="frog female"></span>
-          <strong>Frog female</strong>
-        </li>
-      </ul>
+    <div className={styles.actions}>
+      <div className={styles.container}>
+        <h3>Legend</h3>
+        <ul>
+          <li>
+            <span className="frog male"></span>
+            <strong>Frog male</strong>
+          </li>
+          <li>
+            <span className="frog female"></span>
+            <strong>Frog female</strong>
+          </li>
+        </ul>
+      </div>
 
-      <h3>Actions</h3>
-      <button type="button" id="jump" onClick={onJump} disabled={!canJump}>
-        Jump
-      </button>
-      <button
-        type="button"
-        id="reproduce"
-        onClick={onReporduce}
-        disabled={!canReproduce}
-      >
-        Reproduce
-      </button>
+      <div className={styles.container}>
+        <h3>Actions</h3>
+        <button type="button" id="jump" onClick={onJump} disabled={!canJump}>
+          Jump
+        </button>
+        <button
+          type="button"
+          id="reproduce"
+          onClick={onReporduce}
+          disabled={!canReproduce}
+        >
+          Reproduce
+        </button>
+      </div>
+
+      <Description />
     </div>
   );
 }

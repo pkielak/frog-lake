@@ -1,0 +1,55 @@
+dialog {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  margin: 0;
+  border: none;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  width: calc(100% - 20px);
+  max-width: 768px;
+}
+
+.description {
+  display: flex;
+  flex-direction: column;
+  font-size: 1.4rem;
+  gap: 1rem;
+  padding: 2rem 1.5rem 1.5rem 1.5rem;
+  width: 100%;
+  max-width: calc(100% - 3rem);
+}
+
+.description li {
+  padding-left: 1rem;
+  position: relative;
+}
+
+.description li:before {
+  content: "-";
+  display: block;
+  left: 0.25rem;
+  position: absolute;
+  top: -1px;
+}
+
+.description button {
+  margin-left: auto;
+}
+
+.show {
+  margin-top: auto;
+}
+
+.close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  line-height: 1;
+  box-shadow: none;
+  padding: 0;
+  font-size: 2rem;
+  background: none;
+}
