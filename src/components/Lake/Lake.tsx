@@ -14,7 +14,12 @@ function LakeCell({
 }) {
   return (
     <td>
-      <label className={frog && `frog ${frog?.gender}`}>
+      <label
+        className={
+          frog &&
+          `frog ${frog?.gender} ${frog?.traits?.height} ${frog?.traits?.weight}`
+        }
+      >
         <input type="checkbox" onChange={onSelect} checked={selectedFields} />
       </label>
     </td>

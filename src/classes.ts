@@ -1,10 +1,16 @@
 export type Gender = "male" | "female";
 
+export type Height = "tall" | "short";
+export type Weight = "fat" | "slim";
+
+export type Traits = { height: Height; weight: Weight };
+
 export interface Field {
   x: number;
   y: number;
   id?: number;
   gender?: Gender;
+  traits?: Traits;
 }
 
 export type FrogType = Required<Field>;
@@ -14,13 +20,21 @@ export class Frog implements FrogType {
   y: number;
   id: number;
   gender: Gender;
+  traits: Traits;
   #radius: number;
 
-  constructor(x: number, y: number, id: number, gender: Gender) {
+  constructor(
+    x: number,
+    y: number,
+    id: number,
+    gender: Gender,
+    traits: Traits
+  ) {
     this.x = x;
     this.y = y;
     this.id = id;
     this.gender = gender;
+    this.traits = traits;
     this.#radius = this.gender === "male" ? 3 : 2;
   }
 
@@ -44,7 +58,7 @@ export class Frog implements FrogType {
   jump(x: number, y: number, frogs: Frog[], setFrogs: (frogs: Frog[]) => void) {
     return setFrogs([
       ...frogs.filter((frog) => frog.id !== this.id),
-      new Frog(x, y, this.id, this.gender),
+      new Frog(x, y, this.id, this.gender, this.traits),
     ]);
   }
 
@@ -98,11 +112,33 @@ export class Frog implements FrogType {
     return genders[genderIndex] as Gender;
   }
 
-  reporduce(frogs: Frog[], lake: Lake, setFrogs: (rogs: Frog[]) => void) {
+  #getTraits(mother: Frog, father: Frog): Traits {
+    return {
+      height: [mother.traits.height, father.traits.height][
+        Math.round(Math.random())
+      ],
+      weight: [mother.traits.weight, father.traits.weight][
+        Math.round(Math.random())
+      ],
+    };
+  }
+
+  reporduce(
+    father: Frog,
+    frogs: Frog[],
+    lake: Lake,
+    setFrogs: (frogs: Frog[]) => void
+  ) {
     const { x, y } = this.#newFrogPosition(this.x, this.y, frogs, lake);
 
     if (x !== undefined && y !== undefined) {
-      const frog = new Frog(x, y, frogs.length, this.#getRandomGender());
+      const frog = new Frog(
+        x,
+        y,
+        frogs.length,
+        this.#getRandomGender(),
+        this.#getTraits(this, father)
+      );
       return setFrogs([...frogs, frog]);
     }
 

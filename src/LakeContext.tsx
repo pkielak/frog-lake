@@ -12,8 +12,8 @@ interface LakeContextType {
 const LakeContext = createContext<LakeContextType | undefined>(undefined);
 
 export const initialState = [
-  new Frog(0, 0, 0, "male"),
-  new Frog(1, 0, 1, "female"),
+  new Frog(0, 0, 0, "male", { height: "short", weight: "fat" }),
+  new Frog(1, 0, 1, "female", { height: "tall", weight: "slim" }),
 ];
 
 export const useLakeContext = () => {

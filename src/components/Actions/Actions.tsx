@@ -59,10 +59,16 @@ export default function Actions() {
       const motherField = selectedFrogFields.find(
         (frog) => frog.gender === "female"
       );
+      const fatherField = selectedFrogFields.find(
+        (frog) => frog.gender === "male"
+      );
 
       const motherFrog = frogs.find((frog) => frog.id === motherField?.id);
+      const fatherFrog = frogs.find((frog) => frog.id === fatherField?.id);
 
-      motherFrog && motherFrog.reporduce(frogs, lake, setFrogs);
+      motherFrog &&
+        fatherFrog &&
+        motherFrog.reporduce(fatherFrog, frogs, lake, setFrogs);
       setSelectedFields([]);
     }
   }

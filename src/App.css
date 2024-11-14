@@ -15,6 +15,22 @@
   aspect-ratio: 1;
 }
 
+.frog.slim.short {
+  transform: scale(0.75);
+}
+
+.frog.slim.tall {
+  transform: scale(0.75, 1);
+}
+
+.frog.fat.short {
+  transform: scale(1, 0.75);
+}
+
+.frog.fat.tall {
+  transform: scale(1);
+}
+
 .frog:after {
   content: " ";
   display: block;
